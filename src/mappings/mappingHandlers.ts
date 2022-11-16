@@ -6,6 +6,7 @@ import { Block, Event, Extrinsic, Call, Account, SystemTokenTransfer } from "../
 import { AnyCall } from './types'
 import { IEvent } from '@polkadot/types/types'
 import _ from "lodash";
+import { WrappedExtrinsic } from "./types";
 
 export async function handleBlock(block: SubstrateBlock): Promise<void> {
   const newBlock = new Block(block.block.header.hash.toString())
@@ -51,7 +52,7 @@ export async function handleBlock(block: SubstrateBlock): Promise<void> {
 
 function handleExtrinsic(
   block: SubstrateBlock,
-  extrinsic: SubstrateExtrinsic,
+  extrinsic: WrappedExtrinsic,
   idx: number,
   startEvtIdx: number,
 ): {
@@ -147,7 +148,7 @@ function handleCalls(
 
 function handleEvent(
   block: SubstrateBlock,
-  extrinsic: SubstrateExtrinsic,
+  extrinsic: WrappedExtrinsic,
   event: EventRecord,
   extrinsicId: string,
   idx: number,
@@ -186,7 +187,7 @@ function handleSystemTokenTransfer(
   return newSystemTokenTransfer;
 }
 
-function wrapExtrinsics(wrappedBlock: SubstrateBlock): SubstrateExtrinsic[] {
+function wrapExtrinsics(wrappedBlock: SubstrateBlock): WrappedExtrinsic[] {
   return wrappedBlock.block.extrinsics.map((extrinsic, idx) => {
     const events = wrappedBlock.events.filter(
       ({ phase }) => phase.isApplyExtrinsic && phase.asApplyExtrinsic.eqn(idx)
