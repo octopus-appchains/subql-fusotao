@@ -1,6 +1,6 @@
 specVersion: 1.0.0
 name: subql-fusotao
-version: 0.0.4
+version: 1.0.0
 runner:
   node:
     name: "@subql/node"
